@@ -21,24 +21,43 @@ const Skeleton = () => {
       ) : (
         <GoogleLogin onSuccess={handleLogin} onError={(err) => console.log(err)} />
       )}
-      <h1>Good luck on your project :)</h1>
-      <h2> What you need to change in this skeleton</h2>
-      <ul>
-        <li>
-          Change the Frontend CLIENT_ID (index.jsx) to your team's CLIENT_ID (obtain this at
-          http://weblab.is/clientid)
-        </li>
-        <li>Change the Server CLIENT_ID to the same CLIENT_ID (auth.js)</li>
-        <li>
-          Change the Database SRV (mongoConnectionURL) for Atlas (server.js). You got this in the
-          MongoDB setup.
-        </li>
-        <li>Change the Database Name for MongoDB to whatever you put in the SRV (server.js)</li>
-      </ul>
-      <h2>How to go from this skeleton to our actual app</h2>
-      <a href="https://docs.google.com/document/d/110JdHAn3Wnp3_AyQLkqH2W8h5oby7OVsYIeHYSiUzRs/edit?usp=sharing">
-        Check out this getting started guide
-      </a>
+      <head>
+        <title>Purpose Pad</title>
+        <link rel="stylesheet" href="Skeleton.css" />
+      </head>
+
+      <body>
+        <div class="container">
+          <nav class="navbar">
+            <h1>Purpose Pad</h1>
+            <ul class="menu">
+              <li><a href="#">My Notes</a></li>
+              <li><a href="#">Friend Activity</a></li>
+              <li><a href="#">My Profile</a></li>
+            </ul>
+          </nav>
+
+          <main class="mainContent">
+            <h2>My Notes</h2>
+            <div class="noteGrid">
+              <div class="note">Activity 1</div>
+              <div class="note">Activity 2</div>
+              <div class="note">Activity 3</div>
+              <div class="note">Activity 4</div>
+            </div>
+          </main>
+
+          <aside class="progressWidget">
+            <h3>Progress</h3>
+            <p>67% of goals reached</p>
+            <ul>
+              <li>Work: 73%</li>
+              <li>Personal: 50%</li>
+              <li>Hobbies: 86%</li>
+            </ul>
+          </aside>
+        </div>
+      </body>
     </>
   );
 };
