@@ -1,12 +1,17 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { GoogleLogin, googleLogout } from "@react-oauth/google";
-
+import NavBar from "../modules/navBar";
+import Progress from "../modules/progress";
+import Feed from "./Feed";
 import "../../utilities.css";
 import "./Skeleton.css";
 import { UserContext } from "../App";
 
+
 const Skeleton = () => {
   const { userId, handleLogin, handleLogout } = useContext(UserContext);
+  const [progress, setProgress] = useState(0);
+
   return (
     <>
       {userId ? (
@@ -28,14 +33,7 @@ const Skeleton = () => {
 
       <body>
         <div class="container">
-          <nav class="navbar">
-            <h1>Purpose Pad</h1>
-            <ul class="menu">
-              <li><a href="#">My Notes</a></li>
-              <li><a href="#">Friend Activity</a></li>
-              <li><a href="#">My Profile</a></li>
-            </ul>
-          </nav>
+          <NavBar />
 
           <main class="mainContent">
             <h2>My Notes</h2>
@@ -48,6 +46,7 @@ const Skeleton = () => {
           </main>
 
           <aside class="progressWidget">
+            <Progress progress={progress} />
             <h3>Progress</h3>
             <p>67% of goals reached</p>
             <ul>
