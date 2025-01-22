@@ -4,6 +4,7 @@ import App from "./components/App";
 import Skeleton from "./components/pages/Skeleton";
 import NotFound from "./components/pages/NotFound";
 import Feed from "./components/pages/Feed";
+import Profile from "./components/pages/Profile";
 
 import {
   createBrowserRouter,
@@ -22,6 +23,7 @@ const router = createBrowserRouter(
     <Route errorElement={<NotFound />} element={<App />}>
       <Route path="/" element={<Skeleton />}/>
       <Route path="/feed" element={<Feed />} />
+      <Route path="/profile" element={<Profile />} />
     </Route>
   )
 )

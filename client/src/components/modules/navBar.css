@@ -32,3 +32,10 @@
     color: #333;
     font-size: 1rem;
 }
+
+.NavBar-link, .NavBar-link:visited {
+    color: var(--black);
+    opacity: 0.6;
+    text-decoration: none;
+
+}

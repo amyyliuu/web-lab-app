@@ -7,9 +7,9 @@ const NavBar = () => {
         <nav className="navBar-container">
             <div className="navBar-Title">Purpose Pad</div>
             <ul class="menu">
-              <li><a href="#">My Notes</a></li>
-              <li><Link to="/feed">Friend Activity</Link></li>
-              <li><a href="#">My Profile</a></li>
+              <li><Link to="/" className="NavBar-link">My Notes</Link></li>
+              <li><Link to="/feed" className="NavBar-link">Friend Activity</Link></li>
+              <li><Link to="/profile" className="NavBar-link">My Profile</Link></li>
             </ul>
         </nav>
 

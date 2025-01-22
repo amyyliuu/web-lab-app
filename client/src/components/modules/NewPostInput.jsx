@@ -1,55 +1,59 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./NewPostInput.css";
 
 const NewPostInput = (props) => {
     const [value, setValue] = useState("");
+    const [isPublic, setIsPublic] = useState(false);
+    const navigate = useNavigate(); // For navigation
 
     const handleChange = (event) => {
         setValue(event.target.value);
     };
 
+    const handleToggle = () => {
+        setIsPublic(!isPublic);
+    };
+
     const handleSubmit = (event) => {
         event.preventDefault();
-        props.onSubmit && props.onSubmit(value);
+        if (isPublic) {
+            props.onAddPublicNote(value); // Add note to public feed
+            navigate("/feed"); // Redirect to Feed page
+        } else {
+            props.onAddPrivateNote(value); // Add note to private notes
+        }
         setValue("");
+        setIsPublic(false); // Reset toggle after submission
     };
 
     return (
         <div className="u-flex">
             <input
-            type="text"
-            placeholder={props.defaultText}
-            value={value}
-            onChange={handleChange}
-            className="NewPostInput-input"
+                type="text"
+                placeholder={props.defaultText}
+                value={value}
+                onChange={handleChange}
+                className="NewPostInput-input"
             />
+            <label>
+                <input
+                    type="checkbox"
+                    checked={isPublic}
+                    onChange={handleToggle}
+                />
+                Make Public
+            </label>
             <button
-            type="submit"
-            className="NewPostInput-button u-pointer"
-            value="Submit"
-            onClick={handleSubmit}
+                type="submit"
+                className="NewPostInput-button u-pointer"
+                value="Submit"
+                onClick={handleSubmit}
             >
                 Submit
             </button>
         </div>
     );
-
 };
 
-
-const NewNote = (props) => {
-    const addNote = (value) => {
-        props.addNewNote({_id: "random", creator_name: "Anon", content: value});
-
-
-    };
-    return <NewPostInput defaultText="Enter Note Here" onSubmit={addNote}/>
-};
-
-const NewComment = (props) => {
-    const addComment = (value) => {
-
-    };
-};
-
-export { NewNote, NewComment, NewPostInput };
+export default NewPostInput;
