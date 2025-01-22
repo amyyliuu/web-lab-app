@@ -1,35 +1,27 @@
-import React, { useState } from "react";
+import React from "react";
 import SingleNote from "../modules/SingleNote";
+import { useOutletContext } from "react-router-dom";
 
 const Feed = () => {
-    const [publicNotes, setPublicNotes] = useState([]);
+  const { publicNotes } = useOutletContext();  // Access public notes from context
 
-    const addPublicNote = (note) => {
-        const newNote = {
-            _id: Date.now(),
-            content: note,
-            creator_name: "Anon",
-        };
-        setPublicNotes([...publicNotes, newNote]);
-    };
-
-    return (
-        <div className="feed">
-            <h2>Public Feed</h2>
-            {publicNotes.length > 0 ? (
-                publicNotes.map((note) => (
-                    <SingleNote
-                        key={note._id}
-                        _id={note._id}
-                        creator_name={note.creator_name}
-                        content={note.content}
-                    />
-                ))
-            ) : (
-                <p>No public notes yet.</p>
-            )}
-        </div>
-    );
+  return (
+    <div className="feed">
+      <h2>Public Feed</h2>
+      {publicNotes.length > 0 ? (
+        publicNotes.map((note) => (
+          <SingleNote
+            key={note._id}
+            _id={note._id}
+            creator_name={note.creator_name}
+            content={note.content}
+          />
+        ))
+      ) : (
+        <p>No public notes yet.</p>
+      )}
+    </div>
+  );
 };
 
 export default Feed;

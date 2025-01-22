@@ -1,30 +1,31 @@
 import React, { useState, useEffect, createContext } from "react";
 import { Outlet } from "react-router-dom";
-
 import jwt_decode from "jwt-decode";
-
-import "../utilities.css";
-
 import { socket } from "../client-socket";
-
 import { get, post } from "../utilities";
 
 export const UserContext = createContext(null);
 
-/**
- * Define the "App" component
- */
 const App = () => {
   const [userId, setUserId] = useState(undefined);
+  const [publicNotes, setPublicNotes] = useState([]);  // Track public notes
 
   useEffect(() => {
     get("/api/whoami").then((user) => {
       if (user._id) {
-        // they are registed in the database, and currently logged in.
         setUserId(user._id);
       }
     });
   }, []);
+
+  const addPublicNote = (note) => {
+    const newNote = {
+      _id: Date.now(),
+      content: note,
+      creator_name: "Anon",
+    };
+    setPublicNotes((prevNotes) => [...prevNotes, newNote]);  // Update public notes
+  };
 
   const handleLogin = (credentialResponse) => {
     const userToken = credentialResponse.credential;
@@ -49,7 +50,7 @@ const App = () => {
 
   return (
     <UserContext.Provider value={authContextValue}>
-      <Outlet />
+      <Outlet context={{ publicNotes, addPublicNote }} /> {/* Pass publicNotes and addPublicNote */}
     </UserContext.Provider>
   );
 };
