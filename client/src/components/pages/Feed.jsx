@@ -1,6 +1,8 @@
 // Feed.jsx
 import React, { useState, useEffect } from "react";
 import SingleNote from "../modules/SingleNote";
+import NavBar from "../modules/navBar";
+import "./Feed.css";
 
 const Feed = () => {
   const [publicNotes, setPublicNotes] = useState([]);
@@ -20,13 +22,16 @@ const Feed = () => {
   }, []); // Fetch notes when the component mounts
 
   return (
-    <div>
-      <h2>Public Feed</h2>
-      {publicNotes.length > 0 ? (
-        publicNotes.map((note) => <SingleNote key={note._id} {...note} />)
-      ) : (
-        <p>No public notes yet.</p>
-      )}
+    <div className="container">
+      <NavBar />
+      <main className="mainContent">
+        <h2>Public Feed</h2>
+        {publicNotes.length > 0 ? (
+            publicNotes.map((note) => <SingleNote key={note._id} {...note} />)
+        ) : (
+            <p>No public notes yet.</p>
+        )}
+      </main>
     </div>
   );
 };
