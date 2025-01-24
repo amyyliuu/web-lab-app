@@ -6,9 +6,9 @@ const Feed = () => {
   const [publicNotes, setPublicNotes] = useState([]);
 
   useEffect(() => {
-    const fetchNotes = async () => {
+    const fetchPublicNotes = async () => {
       try {
-        const response = await fetch("/api/notes");
+        const response = await fetch("/api/publicnotes");
         const notes = await response.json();
         setPublicNotes(notes);
       } catch (error) {
@@ -16,7 +16,7 @@ const Feed = () => {
       }
     };
 
-    fetchNotes();
+    fetchPublicNotes();
   }, []); // Fetch notes when the component mounts
 
   return (
