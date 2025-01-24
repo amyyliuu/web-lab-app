@@ -54,7 +54,6 @@ const Skeleton = () => {
       </main>
       <aside className="progressWidget">
         <Progress />
-        <h3>Progress</h3>
         <p>67% of goals reached</p>
       </aside>
     </div>
