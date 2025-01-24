@@ -1,4 +1,3 @@
-// ProfilePage.jsx
 import React, { useState } from 'react';
 import './Profile.css';
 
@@ -13,6 +12,34 @@ const ProfilePage = () => {
       const reader = new FileReader();
       reader.onload = () => setProfilePicture(reader.result);
       reader.readAsDataURL(file);
+    }
+  };
+
+  // Function to handle profile update
+  const handleProfileUpdate = async () => {
+    const profileData = {
+      name,
+      bio,
+      profilePicture,
+    };
+
+    try {
+      const response = await fetch('/api/profile', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(profileData),
+      });
+
+      if (response.ok) {
+        alert('Profile updated successfully!');
+      } else {
+        alert('Failed to update profile');
+      }
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      alert('An error occurred while updating your profile.');
     }
   };
 
@@ -42,6 +69,7 @@ const ProfilePage = () => {
           placeholder="Write something about yourself..."
         />
       </div>
+      <button onClick={handleProfileUpdate}>Update Profile</button>
     </div>
   );
 };

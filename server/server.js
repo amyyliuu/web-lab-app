@@ -39,6 +39,8 @@ const socketManager = require("./server-socket");
 const mongoConnectionURL = process.env.MONGO_SRV;
 // TODO change database name to the name you chose
 const databaseName = "users"
+
+
 // mongoose 7 warning
 mongoose.set("strictQuery", false);
 
@@ -54,6 +56,29 @@ mongoose
 
 // create a new express server
 const app = express();
+
+const cors = require('cors'); // Import CORS
+
+// Set up CORS options
+const corsOptions = {
+  origin: "http://localhost:5173", // Allow frontend (React app) to access the API
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"], // Ensure these headers are allowed
+  credentials: true,  // Allow credentials like cookies or authorization headers
+};
+
+// Use CORS middleware
+app.use(cors(corsOptions)); // Add this line before defining routes
+
+app.options('*', cors(corsOptions)); // Preflight handler for all routes
+
+// Middleware to set COOP and COEP headers
+app.use((req, res, next) => {
+  res.setHeader('Cross-Origin-Opener-Policy', 'same-origin');
+  res.setHeader('Cross-Origin-Embedder-Policy', 'require-corp');
+  next();
+});
+
 app.use(validator.checkRoutes);
 
 // allow us to process POST requests
@@ -63,7 +88,7 @@ app.use(express.json());
 app.use(
   session({
     // TODO: add a SESSION_SECRET string in your .env file, and replace the secret with process.env.SESSION_SECRET
-    secret: "session-secret",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
   })
@@ -74,6 +99,7 @@ app.use(auth.populateCurrentUser);
 
 // connect user-defined routes
 app.use("/api", api);
+
 
 // load the compiled react files, which will serve /index.html and /bundle.js
 const reactPath = path.resolve(__dirname, "..", "client", "dist");
@@ -104,6 +130,7 @@ app.use((err, req, res, next) => {
     message: err.message,
   });
 });
+
 
 // hardcode port to 3000 for now
 const port = 3000;

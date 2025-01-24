@@ -11,6 +11,7 @@ const express = require("express");
 
 // import models so we can interact with the database
 const User = require("./models/user");
+const Note = require("./models/note");
 
 // import authentication library
 const auth = require("./auth");
@@ -20,6 +21,8 @@ const router = express.Router();
 
 //initialize socket
 const socketManager = require("./server-socket");
+
+router.post("/auth/google-login", auth.login);
 
 router.post("/login", auth.login);
 router.post("/logout", auth.logout);
@@ -39,9 +42,85 @@ router.post("/initsocket", (req, res) => {
   res.send({});
 });
 
+
 // |------------------------------|
 // | write your API methods below!|
 // |------------------------------|
+// GET all notes (you can filter by public/private if needed)
+// api/noteRoutes.js (modified)
+// Get all notes created by the logged-in user
+router.get("/mynotes", async (req, res) => {
+  if (!req.user) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  try {
+    const userNotes = await Note.find({ creator_name: req.user.name }); // or { creator_id: req.user._id }
+    res.json(userNotes);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching notes" });
+  }
+});
+
+// Get all public notes created by any user
+router.get("/publicnotes", async (req, res) => {
+  try {
+    const publicNotes = await Note.find({ isPublic: true });
+    res.json(publicNotes);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching notes" });
+  }
+});
+
+router.post("/notes", async (req, res) => {
+  if (!req.user) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  const { content, isPublic } = req.body;
+
+  try {
+    const newNote = new Note({
+      content,
+      creator_name: req.user.name, // Link note to the logged-in user's name
+      creator_id: req.user._id,    // Optional: Store user's unique ID
+      isPublic,
+    });
+
+    await newNote.save();
+    res.status(201).json(newNote);
+  } catch (error) {
+    res.status(500).json({ message: "Error saving note" });
+  }
+});
+
+
+// PUT /api/profile -- update user profile
+router.put("/profile", async (req, res) => {
+  if (!req.user) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  const { name, bio, profilePicture } = req.body;
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      req.user._id, // Use logged-in user's ID
+      { name, bio, profilePicture },
+      { new: true } // Return the updated user
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json(updatedUser);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error updating profile" });
+  }
+});
+
 
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {

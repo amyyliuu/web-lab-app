@@ -17,27 +17,28 @@ function verify(token) {
     .then((ticket) => ticket.getPayload());
 }
 
-// gets user from DB, or makes a new account if it doesn't exist yet
+// Get or create user with profile fields
 function getOrCreateUser(user) {
-  // the "sub" field means "subject", which is a unique identifier for each user
   return User.findOne({ googleid: user.sub }).then((existingUser) => {
     if (existingUser) return existingUser;
 
     const newUser = new User({
       name: user.name,
       googleid: user.sub,
+      profilePicture: '',  // Default profile picture (optional)
+      bio: '',              // Default bio (optional)
     });
 
     return newUser.save();
   });
 }
 
+// User login (with session persistence)
 function login(req, res) {
   verify(req.body.token)
     .then((user) => getOrCreateUser(user))
     .then((user) => {
-      // persist user in the session
-      req.session.user = user;
+      req.session.user = user;  // Store user in session
       res.send(user);
     })
     .catch((err) => {
@@ -46,17 +47,19 @@ function login(req, res) {
     });
 }
 
+// Logout (clear session)
 function logout(req, res) {
   req.session.user = null;
   res.send({});
 }
 
+// Middleware to populate req.user from session
 function populateCurrentUser(req, res, next) {
-  // simply populate "req.user" for convenience
-  req.user = req.session.user;
+  req.user = req.session.user;  // Store user in req.user from session
   next();
 }
 
+// Ensure user is logged in (middleware)
 function ensureLoggedIn(req, res, next) {
   if (!req.user) {
     return res.status(401).send({ err: "not logged in" });
@@ -65,9 +68,35 @@ function ensureLoggedIn(req, res, next) {
   next();
 }
 
+// Profile Update (if user is logged in)
+function updateProfile(req, res) {
+  const { name, bio, profilePicture } = req.body;
+  const userId = req.user._id;  // Get the logged-in user's ID
+
+  User.findByIdAndUpdate(
+    userId,
+    { name, bio, profilePicture },  // Update profile fields
+    { new: true }
+  )
+    .then((updatedUser) => {
+      if (!updatedUser) {
+        return res.status(404).send({ message: "User not found" });
+      }
+
+      // Update session with new profile data
+      req.session.user = updatedUser;
+      res.status(200).json(updatedUser);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).json({ message: "Error updating profile" });
+    });
+}
+
 module.exports = {
   login,
   logout,
   populateCurrentUser,
   ensureLoggedIn,
+  updateProfile,  // Export the profile update function
 };

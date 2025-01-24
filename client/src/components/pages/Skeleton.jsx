@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import NavBar from "../modules/navBar";
 import Progress from "../modules/progress";
 import NewPostInput from "../modules/NewPostInput";
@@ -7,8 +7,22 @@ import "./Skeleton.css";
 import { useOutletContext } from "react-router-dom";
 
 const Skeleton = () => {
-  const [privateNotes, setPrivateNotes] = useState([]);
-  const { addPublicNote } = useOutletContext();  // Access the function from context
+  const [myNotes, setMyNotes] = useState([]);
+  const { addPublicNote } = useOutletContext();
+
+  useEffect(() => {
+    const fetchMyNotes = async () => {
+      try {
+        const response = await fetch("/api/mynotes");
+        const data = await response.json();
+        setMyNotes(data);
+      } catch (error) {
+        console.error("Error fetching my notes:", error);
+      }
+    };
+
+    fetchMyNotes();
+  }, []);
 
   const addPrivateNote = (note) => {
     const newNote = {
@@ -16,7 +30,7 @@ const Skeleton = () => {
       content: note,
       creator_name: "Anon",
     };
-    setPrivateNotes([...privateNotes, newNote]);
+    setMyNotes([...myNotes, newNote]);
   };
 
   return (
@@ -27,17 +41,17 @@ const Skeleton = () => {
         <NewPostInput
           defaultText="Enter a note"
           onAddPrivateNote={addPrivateNote}
-          onAddPublicNote={addPublicNote} //pass function to newpostinput
+          onAddPublicNote={addPublicNote}
         />
         <div>
-          {privateNotes.length > 0 ? (
-            privateNotes.map((note) => (
+          {myNotes.length > 0 ? (
+            myNotes.map((note) => (
               <div key={note._id} className="note">
                 {note.content}
               </div>
             ))
           ) : (
-            <p>No private notes yet.</p>
+            <p>No notes yet.</p>
           )}
         </div>
       </main>

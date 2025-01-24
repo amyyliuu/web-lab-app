@@ -15,15 +15,30 @@ const NewPostInput = (props) => {
     setIsPublic(!isPublic);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    if (isPublic) {
-      props.onAddPublicNote(value); // Add public note
-    } else {
-      props.onAddPrivateNote(value); // Add private note
+    if (value.trim()) {
+      const newNote = {
+        content: value,
+        creator_name: "User's Name", // Replace with actual user data from your app
+        isPublic,
+      };
+
+      try {
+        await fetch("/api/notes", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newNote),
+        });
+
+        setValue(""); // Clear the input after submission
+        setIsPublic(false); // Reset the public toggle
+      } catch (error) {
+        console.error("Error submitting note:", error);
+      }
     }
-    setValue("");
-    setIsPublic(false); // Reset toggle
   };
 
   return (
