@@ -16,7 +16,9 @@ const NewPostInput = (props) => {
   };
 
   const handleSubmit = async (event) => {
+    props.addNote(value);
     event.preventDefault();
+
     if (value.trim()) {
       const newNote = {
         content: value,
@@ -51,11 +53,7 @@ const NewPostInput = (props) => {
         className="NewPostInput-input"
       />
       <label>
-        <input
-          type="checkbox"
-          checked={isPublic}
-          onChange={handleToggle}
-        />
+        <input type="checkbox" checked={isPublic} onChange={handleToggle} />
         Make Public
       </label>
       <button

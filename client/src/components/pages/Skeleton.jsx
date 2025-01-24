@@ -24,12 +24,13 @@ const Skeleton = () => {
     fetchMyNotes();
   }, []);
 
-  const addPrivateNote = (note) => {
+  const addNote = (note) => {
     const newNote = {
       _id: Date.now(),
       content: note,
       creator_name: "Anon",
     };
+    console.log("you added a note: myNotes", myNotes);
     setMyNotes([...myNotes, newNote]);
   };
 
@@ -38,11 +39,7 @@ const Skeleton = () => {
       <NavBar />
       <main className="mainContent">
         <h2>My Notes</h2>
-        <NewPostInput
-          defaultText="Enter a note"
-          onAddPrivateNote={addPrivateNote}
-          onAddPublicNote={addPublicNote}
-        />
+        <NewPostInput defaultText="Enter a note" addNote={addNote} />
         <div>
           {myNotes.length > 0 ? (
             myNotes.map((note) => (

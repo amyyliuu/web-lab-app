@@ -8,7 +8,7 @@ const Feed = () => {
   useEffect(() => {
     const fetchNotes = async () => {
       try {
-        const response = await fetch("/api/notes?isPublic=true");
+        const response = await fetch("/api/notes");
         const notes = await response.json();
         setPublicNotes(notes);
       } catch (error) {

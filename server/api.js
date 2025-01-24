@@ -50,6 +50,7 @@ router.post("/initsocket", (req, res) => {
 // api/noteRoutes.js (modified)
 // Get all notes created by the logged-in user
 router.get("/mynotes", async (req, res) => {
+  console.log("User in request:", req.user); // Add this for debugging
   if (!req.user) {
     return res.status(401).json({ message: "Unauthorized" });
   }
@@ -91,33 +92,6 @@ router.post("/notes", async (req, res) => {
     res.status(201).json(newNote);
   } catch (error) {
     res.status(500).json({ message: "Error saving note" });
-  }
-});
-
-
-// PUT /api/profile -- update user profile
-router.put("/profile", async (req, res) => {
-  if (!req.user) {
-    return res.status(401).json({ message: "Unauthorized" });
-  }
-
-  const { name, bio, profilePicture } = req.body;
-
-  try {
-    const updatedUser = await User.findByIdAndUpdate(
-      req.user._id, // Use logged-in user's ID
-      { name, bio, profilePicture },
-      { new: true } // Return the updated user
-    );
-
-    if (!updatedUser) {
-      return res.status(404).json({ message: "User not found" });
-    }
-
-    res.json(updatedUser);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Error updating profile" });
   }
 });
 
