@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import SingleNote from "../modules/SingleNote";
 import NavBar from "../modules/navBar";
 import "./Feed.css";
+import Card from "../modules/Card";
 
 const Feed = () => {
   const [publicNotes, setPublicNotes] = useState([]);
@@ -27,7 +28,7 @@ const Feed = () => {
       <main className="mainContent">
         <h2>Public Feed</h2>
         {publicNotes.length > 0 ? (
-            publicNotes.map((note) => <SingleNote key={note._id} {...note} />)
+            publicNotes.map((note) => <Card key={note._id} {...note} />)
         ) : (
             <p>No public notes yet.</p>
         )}
