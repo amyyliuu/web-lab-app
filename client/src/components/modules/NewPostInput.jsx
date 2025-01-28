@@ -41,10 +41,12 @@ const NewPostInput = (props) => {
         onChange={handleChange}
         className="NewPostInput-input"
       />
-      <label>
-        <input type="checkbox" checked={isPublic} onChange={handleToggle} />
-        Make Public
-      </label>
+      {!props.isComment && (
+        <label>
+          <input type="checkbox" checked={isPublic} onChange={handleToggle} />
+          Make Public
+        </label>
+      )}
       <button
         type="submit"
         className="NewPostInput-button u-pointer"
@@ -73,7 +75,7 @@ const NewComment = (props) => {
     });
   };
 
-  return <NewPostInput defaultText="New Comment" onSubmit={addComment} />;
+  return <NewPostInput defaultText="New Comment" onSubmit={addComment} isComment={true} />;
 };
 
 /**
