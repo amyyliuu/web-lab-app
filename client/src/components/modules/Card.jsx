@@ -1,33 +1,51 @@
-import React, { useEffect, useState } from "react";
-import "./Card.css";
+import React, { useState, useEffect } from "react";
 import SingleNote from "./SingleNote";
-import SingleComment from "./SingleComment";
+import CommentsBlock from "./CommentsBlock";
+import { get } from "../../utilities";
 
+import "./Card.css";
 
+/**
+ * Card is a component for displaying content like stories
+ *
+ * Proptypes
+ * @param {string} _id of the story
+ * @param {string} creator_name
+ * @param {string} creator_id
+ * @param {string} content of the story
+ */
 const Card = (props) => {
-    const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState([]);
 
-    useEffect(() => {
-        setComments(comments.filter((comment) => comment.parent==props._id));
+  useEffect(() => {
+    get("/api/comment", { parent: props._id }).then((comments) => {
+      setComments(comments);
+    });
+  }, []);
 
-    }, []);
+  // this gets called when the user pushes "Submit", so their
+  // post gets added to the screen right away
+  const addNewComment = (commentObj) => {
+    setComments(comments.concat([commentObj]));
+  };
 
-    let commentsList = null;
-    const hasComments = comments.length != 0;
-    if (hasComments) {
-        commentsList = comments.map((commentObj) => (
-            <SingleComment key={commentObj._id} {...commentObj} />
-        ));
-    } else {
-        commentsList = <div>No comments!</div>
-    }
-
-
-
-    return <div>
-        <SingleNote _id={props._id} creator_name={props.creator_name} content={props.content} />
-        {commentsList}
+  return (
+    <div className="Card-container">
+      <SingleNote
+        _id={props._id}
+        creator_name={props.creator_name}
+        creator_id={props.creator_id}
+        content={props.content}
+      />
+      <CommentsBlock
+        note={props}
+        comments={comments}
+        creator_id={props.creator_id}
+        userId={props.userId}
+        addNewComment={addNewComment}
+      />
     </div>
-}
+  );
+};
 
 export default Card;

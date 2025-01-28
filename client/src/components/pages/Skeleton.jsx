@@ -1,56 +1,55 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import NavBar from "../modules/navBar";
+import Card from "../modules/Card";
+
 import Progress from "../modules/progress";
-import NewPostInput from "../modules/NewPostInput";
+import { NewNote } from "../modules/NewPostInput";
 import "../../utilities.css";
 import "./Skeleton.css";
-import { useOutletContext } from "react-router-dom";
+import { get } from "../../utilities";
+import { UserContext } from "../App"; // Adjust path if needed
 
-const Skeleton = () => {
+
+const Skeleton = (props) => {
   const [myNotes, setMyNotes] = useState([]);
-  const { addPublicNote } = useOutletContext();
+  const { userId } = useContext(UserContext); // Access userId from context
 
   useEffect(() => {
-    const fetchMyNotes = async () => {
-      try {
-        const response = await fetch("/api/mynotes");
-        const data = await response.json();
-        setMyNotes(data);
-      } catch (error) {
-        console.error("Error fetching my notes:", error);
-      }
-    };
-
-    fetchMyNotes();
+    document.title = "My Notes";
+    get("/api/mynotes").then((noteObjs) => {
+      let reversedNoteObjs = noteObjs.reverse();
+      setMyNotes(reversedNoteObjs);
+      console.log("mynotes retrived: ", noteObjs);
+    });
   }, []);
 
-  const addNote = (note) => {
-    const newNote = {
-      _id: Date.now(),
-      content: note,
-      creator_name: "Anon",
-    };
-    console.log("you added a note: myNotes", myNotes);
-    setMyNotes([...myNotes, newNote]);
+  const addNewNote = (noteObj) => {
+    setMyNotes((prevNotes) => [noteObj, ...prevNotes]); // Use functional update
   };
 
+  let myNotesList = null;
+  const hasNotes = myNotes.length !== 0;
+  if (hasNotes) {
+    myNotesList = myNotes.map((noteObj) => (
+      <Card
+        key={`Card_${noteObj._id}`}
+        _id={noteObj._id}
+        creator_name={noteObj.creator_name}
+        creator_id={noteObj.creator_id}
+        userId={userId}
+        content={noteObj.content}
+      />
+    ));
+  } else {
+    myNotesList = <div>No notes!</div>;
+  }
+  console.log('User ID:', userId);
   return (
     <div className="container">
       <NavBar />
       <main className="mainContent">
-        <h2>My Notes</h2>
-        <NewPostInput defaultText="Enter a note" addNote={addNote} />
-        <div>
-          {myNotes.length > 0 ? (
-            myNotes.map((note) => (
-              <div key={note._id} className="note">
-                {note.content}
-              </div>
-            ))
-          ) : (
-            <p>No notes yet.</p>
-          )}
-        </div>
+        {userId && <NewNote addNewNote={addNewNote} />}
+        {myNotesList}
       </main>
       <aside className="progressWidget">
         <Progress />

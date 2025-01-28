@@ -1,12 +1,22 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import "./NewPostInput.css";
 
+import "./NewPostInput.css";
+import { post } from "../../utilities";
+
+/**
+ * New Post is a parent component for all input components
+ *
+ * Proptypes
+ * @param {string} defaultText is the placeholder text
+ * @param {string} noteId optional prop, used for comments
+ * @param {({noteId, value}) => void} onSubmit: (function) triggered when this post is submitted, takes {storyId, value} as parameters
+ */
 const NewPostInput = (props) => {
   const [value, setValue] = useState("");
   const [isPublic, setIsPublic] = useState(false);
-  const navigate = useNavigate();
 
+
+  // called whenever the user types in the new post input box
   const handleChange = (event) => {
     setValue(event.target.value);
   };
@@ -15,34 +25,13 @@ const NewPostInput = (props) => {
     setIsPublic(!isPublic);
   };
 
-  const handleSubmit = async (event) => {
-    props.addNote(value);
+  // called when the user hits "Submit" for a new post
+  const handleSubmit = (event) => {
     event.preventDefault();
-
-    if (value.trim()) {
-      const newNote = {
-        content: value,
-        creator_name: "User's Name", // Replace with actual user data from your app
-        isPublic,
-      };
-
-      try {
-        await fetch("/api/notes", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(newNote),
-        });
-
-        setValue(""); // Clear the input after submission
-        setIsPublic(false); // Reset the public toggle
-      } catch (error) {
-        console.error("Error submitting note:", error);
-      }
-    }
+    props.onSubmit && props.onSubmit(value, isPublic);
+    setValue("");
   };
-
+  console.log("Rendering NewPostInput");
   return (
     <div className="u-flex">
       <input
@@ -68,4 +57,57 @@ const NewPostInput = (props) => {
   );
 };
 
-export default NewPostInput;
+/**
+ * New Comment is a New Post component for comments
+ *
+ * Proptypes
+ * @param {string} defaultText is the placeholder text
+ * @param {string} noteId to add comment to
+ */
+const NewComment = (props) => {
+  const addComment = (value) => {
+    const body = { parent: props.noteId, content: value };
+    post("/api/comment", body).then((comment) => {
+      // display this comment on the screen
+      props.addNewComment(comment);
+    });
+  };
+
+  return <NewPostInput defaultText="New Comment" onSubmit={addComment} />;
+};
+
+/**
+ * New Story is a New Post component for comments
+ *
+ * Proptypes
+ * @param {string} defaultText is the placeholder text
+ */
+const NewNote = (props) => {
+  const addNote = (value, isPublic) => {
+    const body = { content: value, isPublic: isPublic};
+    post("/api/notes", body).then((note) => {
+      // display this story on the screen
+      props.addNewNote(note);
+      console.log("NewNote is rendered");
+    });
+  };
+
+  return <NewPostInput defaultText="New Note" onSubmit={addNote} />;
+};
+
+/**
+ * New Message is a New Message component for messages
+ *
+ * Proptypes
+ * @param {UserObject} recipient is the intended recipient
+ */
+const NewMessage = (props) => {
+  const sendMessage = (value) => {
+    const body = { recipient: props.recipient, content: value };
+    post("/api/message", body);
+  };
+
+  return <NewPostInput defaultText="New Message" onSubmit={sendMessage} />;
+};
+
+export { NewComment, NewNote, NewMessage, NewPostInput };

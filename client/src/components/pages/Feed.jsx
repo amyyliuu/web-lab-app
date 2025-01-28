@@ -1,37 +1,52 @@
 // Feed.jsx
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import SingleNote from "../modules/SingleNote";
 import NavBar from "../modules/navBar";
 import "./Feed.css";
 import Card from "../modules/Card";
+import { NewNote } from "../modules/NewPostInput";
+import { UserContext } from "../App"; // Adjust path if needed
+import { get } from "../../utilities";
 
-const Feed = () => {
+
+const Feed = (props) => {
   const [publicNotes, setPublicNotes] = useState([]);
+  const { userId } = useContext(UserContext); // Access userId from context
 
   useEffect(() => {
-    const fetchPublicNotes = async () => {
-      try {
-        const response = await fetch("/api/publicnotes");
-        const notes = await response.json();
-        setPublicNotes(notes);
-      } catch (error) {
-        console.error("Error fetching notes:", error);
-      }
-    };
+    get("/api/publicnotes").then((noteObjs) => {
+      let reversedNoteObjs = noteObjs.reverse();
+      setPublicNotes(reversedNoteObjs);
+      console.log("publicnotes retrived: ", noteObjs);
+    });
+  }, []);
 
-    fetchPublicNotes();
-  }, []); // Fetch notes when the component mounts
+  const addNewPublicNote = (noteObj) => {
+    setPublicNotes((prevNotes) => [noteObj, ...prevNotes]); // Use functional update
+  };
+
+  let publicNotesList = null;
+  const hasNotes = publicNotes.length !== 0;
+  if (hasNotes) {
+    publicNotesList = publicNotes.map((noteObj) => (
+      <Card
+        key={`Card_${noteObj._id}`}
+        _id={noteObj._id}
+        creator_name={noteObj.creator_name}
+        creator_id={noteObj.creator_id}
+        userId={userId}
+        content={noteObj.content}
+      />
+    ));
+  } else {
+    publicNotesList = <div>No notes!</div>;
+  }
 
   return (
     <div className="container">
       <NavBar />
       <main className="mainContent">
-        <h2>Public Feed</h2>
-        {publicNotes.length > 0 ? (
-            publicNotes.map((note) => <Card key={note._id} {...note} />)
-        ) : (
-            <p>No public notes yet.</p>
-        )}
+        {publicNotesList}
       </main>
     </div>
   );

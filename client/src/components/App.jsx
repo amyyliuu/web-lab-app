@@ -13,6 +13,7 @@ const App = () => {
 
   useEffect(() => {
     get("/api/whoami").then((user) => {
+      console.log("User from /api/whoami:", user); // Log the full user object
       if (user._id) {
         console.log("usr still in session!");
         setUserId(user._id);
@@ -54,7 +55,7 @@ const App = () => {
 
   return (
     <UserContext.Provider value={authContextValue}>
-      <Outlet context={{ publicNotes, addPublicNote }} /> {/* Pass publicNotes and addPublicNote */}
+      <Outlet /> {/* Pass publicNotes and addPublicNote */}
     </UserContext.Provider>
   );
 };
