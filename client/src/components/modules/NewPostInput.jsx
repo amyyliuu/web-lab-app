@@ -14,6 +14,8 @@ import { post } from "../../utilities";
 const NewPostInput = (props) => {
   const [value, setValue] = useState("");
   const [isPublic, setIsPublic] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
 
   // called whenever the user types in the new post input box
@@ -26,35 +28,65 @@ const NewPostInput = (props) => {
   };
 
   // called when the user hits "Submit" for a new post
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    props.onSubmit && props.onSubmit(value, isPublic);
-    setValue("");
+    if (!value.trim()) return;
+
+    setIsLoading(true);
+    try {
+      await props.onSubmit(value, isPublic);
+      setIsSuccess(true);
+      setValue("");
+      // Reset success state after animation
+      setTimeout(() => setIsSuccess(false), 2000);
+    } catch (error) {
+      console.error("Error submitting post:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  const inputClassName = `NewPostInput-input ${
+    isSuccess ? 'success-fade' : ''
+  }`;
+
+  const buttonClassName = `NewPostInput-button u-pointer ${
+    isLoading ? 'loading' : ''
+  } ${isSuccess ? 'success' : ''}`;
+
   console.log("Rendering NewPostInput");
   return (
-    <div className="u-flex">
-      <input
-        type="text"
-        placeholder={props.defaultText}
-        value={value}
-        onChange={handleChange}
-        className="NewPostInput-input"
-      />
-      {!props.isComment && (
-        <label>
-          <input type="checkbox" checked={isPublic} onChange={handleToggle} />
-          Make Public
-        </label>
-      )}
-      <button
-        type="submit"
-        className="NewPostInput-button u-pointer"
-        value="Submit"
-        onClick={handleSubmit}
-      >
-        Submit
-      </button>
+    <div className="new-post-container">
+      <div className="u-flex">
+        <input
+          type="text"
+          placeholder={props.defaultText}
+          value={value}
+          onChange={handleChange}
+          className={inputClassName}
+          disabled={isLoading}
+        />
+        {!props.isComment && (
+          <label className="checkbox-wrapper">
+            <input
+              type="checkbox"
+              checked={isPublic}
+              onChange={handleToggle}
+              disabled={isLoading}
+              className="custom-checkbox"
+            />
+            <span className="checkbox-label">Make Public</span>
+          </label>
+        )}
+        <button
+          type="submit"
+          className={buttonClassName}
+          onClick={handleSubmit}
+          disabled={isLoading || !value.trim()}
+        >
+          {isLoading ? '': isSuccess ? 'Posted!' : 'Submit'}
+        </button>
+      </div>
     </div>
   );
 };
@@ -75,7 +107,7 @@ const NewComment = (props) => {
     });
   };
 
-  return <NewPostInput defaultText="New Comment" onSubmit={addComment} isComment={true} />;
+  return <NewPostInput defaultText="Write a comment..." onSubmit={addComment} isComment={true} />;
 };
 
 /**
@@ -94,7 +126,7 @@ const NewNote = (props) => {
     });
   };
 
-  return <NewPostInput defaultText="New Note" onSubmit={addNote} />;
+  return <NewPostInput defaultText="Share your thoughts..." onSubmit={addNote} />;
 };
 
 /**
@@ -109,7 +141,7 @@ const NewMessage = (props) => {
     post("/api/message", body);
   };
 
-  return <NewPostInput defaultText="New Message" onSubmit={sendMessage} />;
+  return <NewPostInput defaultText="Type your message..." onSubmit={sendMessage} />;
 };
 
 export { NewComment, NewNote, NewMessage, NewPostInput };

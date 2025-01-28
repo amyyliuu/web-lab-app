@@ -1,41 +1,44 @@
+/* navBar.css */
+
+/* Container styles */
 .navBar-container {
-    background-color: #f8f9fa;
-    padding: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 5px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-}
+    padding: 16px;
+    background-color: #f8f9fa; /* Light background */
+    border-right: 1px solid #ddd; /* Separator line */
+    width: 250px; /* Adjust sidebar width */
+    height: 100vh; /* Full height of the viewport */
+    position: fixed; /* Sidebar stays in place */
+    left: 0; /* Stick to the left */
+    top: 0; /* Stick to the top */
+    overflow-y: auto; /* Allow scrolling if content overflows */
+  }
 
-.navBar-title {
-    color: var(--white);
-    font-size: 20px;
-}
-
-.navbar h1 {
-    margin-bottom: 2rem;
+  /* Title link */
+  .navBar-Title {
     font-size: 1.5rem;
-    text-align: center;
-}
-
-.navbar .menu {
-    list-style: none;
-}
-
-.navbar .menu li {
-    margin-bottom: 1rem;
-}
-
-.navbar .menu a {
+    font-weight: bold;
+    margin-bottom: 24px;
     text-decoration: none;
-    color: #333;
-    font-size: 1rem;
-}
+    color: #333; /* Darker text */
+  }
 
-.NavBar-link, .NavBar-link:visited {
-    color: var(--black);
-    opacity: 0.6;
+  /* Navigation links */
+  .NavBar-link {
     text-decoration: none;
+    font-size: 1.2rem;
+    color: #555; /* Medium-dark text */
+    margin-bottom: 12px;
+    display: block;
+    transition: color 0.3s ease;
+  }
 
-}
+  .NavBar-link:hover {
+    color: #007bff; /* Hover effect */
+  }
+
+  .NavBar-link.active {
+    color: #007bff; /* Active link color */
+    font-weight: bold;
+  }

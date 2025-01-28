@@ -1,32 +1,59 @@
-.Note-container {
-    border: var(--grey) 1px solid;
-    border-radius: var(--xs);
-    margin-top: var(--m);
-}
+.Note-story {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
 
-.Note-container:first-of-type {
-    margin-top: var(--l);
-}
+  .Note-story:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px -1px rgba(0, 0, 0, 0.1),
+                0 4px 6px -1px rgba(0, 0, 0, 0.06);
+  }
 
-.Note-story, .Note-commentSection {
-    padding: var(--m) var(--l);
-}
+  .Note-story h1 {
+    color: #4b5563;
+    font-size: 1.125rem;
+    margin: 0 0 0.75rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #f3f4f6;
+  }
 
-.Note-storyUser {
-    font-size: 20px;
+  .Note-storyContent {
+    color: #6b7280;
+    line-height: 1.6;
+    font-size: 1rem;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  /* Bold utility class */
+  .u-bold {
     font-weight: 600;
-}
+    color: #374151;
+  }
 
-.Note-storyContent {
-    font-size: 40px;
-    margin: var(--s) 0 0;
-}
+  /* Add a subtle hover effect for the content */
+  .Note-storyContent:hover {
+    color: #4b5563;
+  }
 
-.Note-commentSection {
-    background-color: var(--grey);
-    border-top: 1px solid var(--grey);
-}
+  /* Add responsive padding for smaller screens */
+  @media (max-width: 640px) {
+    .Note-story {
+      padding: 1rem;
+      margin-bottom: 0.75rem;
+    }
 
-.Note-commentBody {
-    margin: 0 0 var(--s);
-}
+    .Note-story h1 {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .Note-storyContent {
+      font-size: 0.9375rem;
+    }
+  }

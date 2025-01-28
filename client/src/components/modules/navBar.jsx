@@ -1,27 +1,36 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./navBar.css";
 
 const NavBar = () => {
+  const location = useLocation();
+
+  const navLinks = [
+    { to: "/home", text: "My Notes" },
+    { to: "/feed", text: "Friend Activity" },
+    { to: "/profile", text: "My Profile" }
+  ];
+
   return (
     <nav className="navBar-container">
-      <div className="navBar-Title">Purpose Pad</div>
-      <ul className="menu">
-        <li>
-          <Link to="/home" className="NavBar-link">
-            My Notes
-          </Link>
-        </li>
-        <li>
-          <Link to="/feed" className="NavBar-link">
-            Friend Activity
-          </Link>
-        </li>
-        <li>
-          <Link to="/profile" className="NavBar-link">
-            My Profile
-          </Link>
-        </li>
+      <Link to="/home" className="navBar-Title">
+        Purpose Pad
+      </Link>
+
+      <ul className="menu open">
+        {navLinks.map((link, index) => (
+          <li
+            key={link.to}
+            style={{ "--index": index + 1 }}
+          >
+            <Link
+              to={link.to}
+              className={`NavBar-link ${location.pathname === link.to ? 'active' : ''}`}
+            >
+              {link.text}
+            </Link>
+          </li>
+        ))}
       </ul>
     </nav>
   );

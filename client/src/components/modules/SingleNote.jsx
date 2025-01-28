@@ -1,12 +1,18 @@
 import React from "react";
 import "./Note.css";
 
-const SingleNote = (props) => {
+const SingleNote = ({creator_name, content, timestamp}) => {
     return (
     <div className = "Note-story">
-        <h1 className = "u-bold">{props.creator_name}</h1>
-        <div className="Note-storyContent">{props.content}</div>
-
+        <h1 className = "u-bold">
+            {creator_name}
+            {timestamp && (
+                <span className="Note-timestamp">
+                    {new Date(timestamp).toLocaleDateString()}
+                </span>
+            )}
+        </h1>
+        <div className="Note-storyContent">{content}</div>
     </div>
     );
 };
