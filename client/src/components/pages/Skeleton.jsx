@@ -1,18 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 import NavBar from "../modules/navBar";
 import Card from "../modules/Card";
-import "../../utilities.css";  // Keep your existing import
-
-
-import Progress from "../modules/progress";
 import { NewNote } from "../modules/NewPostInput";
 import "../../utilities.css";
-import "./Skeleton.css";
+import "./Skeleton.css"; // Import the updated CSS
 import { get } from "../../utilities";
 import { UserContext } from "../App"; // Adjust path if needed
 
 const EmptyState = () => (
-  <div className="card empty-state">
+  <div className="empty-state">
     <h3>No notes yet!</h3>
     <p>Start your journey by creating your first note above.</p>
   </div>
@@ -20,7 +16,7 @@ const EmptyState = () => (
 
 const Welcome = ({ username }) => (
   <div className="welcome-banner">
-    <h1>Welcome back, {username}!</h1>
+    <h1>Welcome, {username}!</h1>
     <p>What's on your mind today?</p>
   </div>
 );
@@ -35,14 +31,13 @@ const Skeleton = (props) => {
     get("/api/mynotes").then((noteObjs) => {
       let reversedNoteObjs = noteObjs.reverse();
       setMyNotes(reversedNoteObjs);
-      console.log("mynotes retrived: ", noteObjs);
+      console.log("mynotes retrieved: ", noteObjs);
     });
   }, [username, profilePicture]);
 
   const addNewNote = (noteObj) => {
     setMyNotes((prevNotes) => [noteObj, ...prevNotes]); // Use functional update
   };
-
 
   console.log('User ID:', userId);
   return (
@@ -56,6 +51,12 @@ const Skeleton = (props) => {
             <NewNote addNewNote={addNewNote} />
           </div>
         )}
+
+        {/* Add the header here */}
+        <div className="notes-header">
+          <h2>Your Notes</h2>
+          <p>Here are your past notes, ready to inspire you.</p>
+        </div>
 
         <div className="notes-section">
           {myNotes.length > 0 ? (

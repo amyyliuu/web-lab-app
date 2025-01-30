@@ -1,43 +1,84 @@
 /* LoginPage.css */
-.login-container {
+:root {
+    --primary: #6c5ce7; /* A modern purple */
+    --primary-light: #a29bfe; /* Lighter purple */
+    --primary-dark: #4a3fbf; /* Darker purple */
+    --surface: #ffffff; /* White background */
+    --background: #f5f6fa; /* Light gray background */
+    --text-primary: #2d3436; /* Dark gray text */
+    --text-secondary: #636e72; /* Lighter gray text */
+    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    --shadow-hover: 0 15px 40px rgba(108, 92, 231, 0.2); /* Hover shadow */
+    --border-radius: 16px; /* Rounded corners */
+  }
+
+  .login-container {
     min-height: 100vh;
     background: linear-gradient(135deg, var(--primary-light), var(--primary-dark));
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 2rem;
+    font-family: 'Inter', sans-serif; /* Modern font */
   }
 
   .login-card {
     background: var(--surface);
     padding: 3rem;
-    border-radius: 1rem;
+    border-radius: var(--border-radius);
     box-shadow: var(--shadow-lg);
     max-width: 28rem;
     width: 100%;
     animation: slideUp 0.5s ease-out;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .login-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
   }
 
   .login-title {
     font-size: 2.5rem;
-    font-weight: bold;
+    font-weight: 800; /* Extra bold */
     color: var(--primary);
     margin-bottom: 1rem;
     text-align: center;
+    letter-spacing: -0.05em; /* Tight letter spacing */
   }
 
   .login-subtitle {
     color: var(--text-secondary);
     text-align: center;
     margin-bottom: 2rem;
-    line-height: 1.5;
+    line-height: 1.6;
+    font-size: 1.1rem;
+    font-weight: 400;
+  }
+
+  .app-goal {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: var(--background);
+    border-radius: var(--border-radius);
+    border: 1px solid rgba(0, 0, 0, 0.05); /* Subtle border */
+    text-align: center;
+    font-size: 1rem;
+    color: var(--text-primary);
+    line-height: 1.6;
+  }
+
+  .app-goal .highlight {
+    color: var(--primary);
+    font-weight: 600;
   }
 
   .app-features {
     margin: 2rem 0;
     padding: 1.5rem;
     background: var(--background);
-    border-radius: 0.5rem;
+    border-radius: var(--border-radius);
+    border: 1px solid rgba(0, 0, 0, 0.05); /* Subtle border */
   }
 
   .feature-item {
@@ -45,9 +86,25 @@
     align-items: center;
     margin: 1rem 0;
     color: var(--text-primary);
+    font-size: 1rem;
+    font-weight: 500;
   }
 
   .feature-item svg {
     margin-right: 1rem;
     color: var(--primary);
+    width: 24px;
+    height: 24px;
+  }
+
+  /* Animation for the login card */
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }

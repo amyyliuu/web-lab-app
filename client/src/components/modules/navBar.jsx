@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import "../../utilities.css";  // Keep your existing import
-import "./navBar.css";
+import "./navBar.css"; // Import the updated CSS
 
 const NavBar = () => {
   const location = useLocation();

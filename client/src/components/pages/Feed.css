@@ -1,52 +1,122 @@
 :root {
-    --primary: #396dff;
-    --grey: #f7f7f7;
-    --white: #ffffff;
-    --xs: 4px;
-    --s: 8px;
-    --m: 16px;
-    --l: 24px;
-}
+    --primary: #396dff; /* Modern blue */
+    --primary-light: #6c8eff; /* Lighter blue */
+    --surface: #ffffff; /* White background */
+    --background: #f5f6fa; /* Light periwinkle background */
+    --text-primary: #2d3436; /* Dark gray text */
+    --text-secondary: #636e72; /* Lighter gray text */
+    --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.1); /* Larger shadow */
+    --border-radius: 16px; /* Rounded corners */
+  }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+  /* Container Layout */
+  .container {
+    display: flex;
+    min-height: 100vh; /* Ensure the container covers at least the viewport height */
+    background-color: var(--background); /* Apply light periwinkle background */
+    font-family: "Inter", system-ui, sans-serif;
+  }
 
-body {
-    font-family: Arial, sans-serif;
-    width: 100%;
-    height: 100%;
-}
+  /* Main Content */
+  .mainContent {
+    flex: 1;
+    margin-left: 315px; /* Match navbar width */
+    padding: 2rem;
+    width: calc(100% - 280px); /* Take up remaining width after navbar */
+    background-color: var(--background); /* Ensure background color extends */
+    min-height: 100vh; /* Ensure it covers the full height */
+  }
 
-/* Container Layout */
-.container {
-    display: grid;
-    grid-template-columns: .7fr 3fr 1fr; /* Navbar, Main Content, Progress Widget */
-    height: 100vh; /* Full viewport height */
-    gap: 1rem; /* Spacing between columns */
-    padding: 1rem;
-}
-
-/* Main Content */
-.mainContent {
-    background-color: #fff;
-    padding: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-}
-
-.noteGrid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Two columns of notes */
-    gap: 1rem;
-}
-
-.note {
-    background-color: #f0f0f0;
-    padding: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+  /* Feed Header */
+  .feed-header {
+    background: var(--surface);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 2rem;
+    margin-right: 100px;
     text-align: center;
-}
+    width: calc(94%); /* Ensure it spans the full width */
+  }
+
+  .feed-header h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .feed-header p {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+  }
+
+  /* Single-Column Notes Feed */
+  .noteFeed {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* Spacing between notes */
+    width: 100%; /* Ensure it spans the full width */
+  }
+
+  /* Empty State */
+  .empty-state {
+    background: var(--surface);
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+    text-align: center;
+    color: var(--text-secondary);
+  }
+
+  /* Responsive Design */
+  @media (max-width: 1200px) {
+    .mainContent {
+      margin-left: 220px; /* Adjust for smaller navbar width */
+      padding: 1.5rem;
+      width: calc(100% - 220px); /* Adjust width for smaller navbar */
+    }
+  }
+
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+    }
+
+    .mainContent {
+      margin-left: 0;
+      padding: 1rem;
+      width: 100%; /* Full width on small screens */
+    }
+
+    .feed-header {
+      padding: 1.5rem;
+    }
+
+    .feed-header h1 {
+      font-size: 2rem;
+    }
+
+    .feed-header p {
+      font-size: 1rem;
+    }
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: var(--background);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--primary-light);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
+  }

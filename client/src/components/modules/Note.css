@@ -1,104 +1,87 @@
-.Note-story {
-    background: white;
-    border-radius: 16px;
-    padding: 1.5rem;
-    margin-bottom: 1rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-                0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  .Note-story:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 8px -1px rgba(0, 0, 0, 0.1),
-                0 4px 6px -1px rgba(0, 0, 0, 0.06);
-  }
-
-  .Note-story h1 {
-    color: #4b5563;
-    font-size: 1.125rem;
-    margin: 0 0 0.75rem 0;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid #f3f4f6;
-  }
-
-  .Note-storyContent {
-    color: #6b7280;
-    line-height: 1.6;
-    font-size: 1rem;
-    white-space: pre-wrap;
-    word-break: break-word;
-  }
-
-  /* Bold utility class */
-  .u-bold {
-    font-weight: 600;
-    color: #374151;
-  }
-
-  /* Add a subtle hover effect for the content */
-  .Note-storyContent:hover {
-    color: #4b5563;
-  }
-
-  /* Add responsive padding for smaller screens */
-  @media (max-width: 640px) {
-    .Note-story {
-      padding: 1rem;
-      margin-bottom: 0.75rem;
-    }
-
-    .Note-story h1 {
-      font-size: 1rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .Note-storyContent {
-      font-size: 0.9375rem;
-    }
-  }
-  .Note-profilePicture {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 10px;
-    object-fit: cover;
+/* Note.css */
+:root {
+  --primary: #6c5ce7; /* Modern purple */
+  --primary-light: #a29bfe; /* Lighter purple */
+  --surface: #ffffff; /* White background */
+  --background: #f5f6fa; /* Light gray background */
+  --text-primary: #2d3436; /* Dark gray text */
+  --text-secondary: #636e72; /* Lighter gray text */
+  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-hover: 0 6px 12px rgba(108, 92, 231, 0.2); /* Purple hover shadow */
+  --border-radius: 16px; /* Rounded corners */
 }
 
-.Comment-profilePicture {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    margin-right: 8px;
-    object-fit: cover;
+.Note-story {
+  background: var(--surface);
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid rgba(0, 0, 0, 0.05); /* Subtle border */
+}
+
+.Note-story:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
 }
 
 .Note-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
 }
 
-.Card-commentBody {
-    display: flex;
-    align-items: center;
-    padding: 8px 0;
+.Note-profilePicture {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  margin-right: 12px;
+  object-fit: cover;
+  border: 2px solid var(--primary-light); /* Cute border */
 }
 
-.Comment-content {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.Note-story {
-    display: flex;
-    flex-direction: column;
+.Note-story h1 {
+  color: var(--text-primary);
+  font-size: 1.25rem;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .Note-timestamp {
-    font-size: 0.8em;
-    color: #666;
-    margin-left: 10px;
-    font-weight: normal;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+.Note-storyContent {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-size: 1rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin-top: 1rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .Note-story {
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .Note-profilePicture {
+    width: 40px;
+    height: 40px;
+  }
+
+  .Note-story h1 {
+    font-size: 1.125rem;
+  }
+
+  .Note-storyContent {
+    font-size: 0.9375rem;
+  }
 }

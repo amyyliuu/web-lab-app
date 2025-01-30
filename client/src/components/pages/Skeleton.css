@@ -1,116 +1,181 @@
-/* .u- is a class, syntax: <{thing} class=".u-{thing}"> */
-
+/* Skeleton.css */
 :root {
-    --primary: #396dff;
-    --grey: #f7f7f7;
-    --white: #ffffff;
-    --xs: 4px;
-    --s: 8px;
-    --m: 16px;
-    --l: 24px;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    width: 100%;
-    height: 100%;
+  --primary: #6c5ce7; /* Modern purple */
+  --primary-light: #a29bfe; /* Lighter purple */
+  --surface: #ffffff; /* White background */
+  --background: #f5f6fa; /* Light periwinkle background */
+  --text-primary: #2d3436; /* Dark gray text */
+  --text-secondary: #636e72; /* Lighter gray text */
+  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.1); /* Larger shadow */
+  --border-radius: 16px; /* Rounded corners */
 }
 
 /* Container Layout */
 .container {
-  display: grid;
-  grid-template-columns: 250px 1fr minmax(600px, 900px) 1fr; /* Adjust centering */
-  gap: 2rem;
-  padding: 2rem;
-  min-height: 100vh;
-  background-color: #f7f3eb;
+  display: flex;
+  min-height: 100vh; /* Ensure the container covers at least the viewport height */
+  background-color: var(--background); /* Apply light periwinkle background */
   font-family: 'Inter', system-ui, sans-serif;
 }
 
 /* Main Content */
 .mainContent {
-  grid-column: 2 / span 2; /* Ensure it stays within the correct grid layout */
-  display: flex;
-  flex-direction: column;
+  flex: 1;
+  margin-left: 280px; /* Match navbar width */
+  padding: 2rem;
+  width: calc(150%); /* Take up remaining width after navbar */
+  background-color: var(--background); /* Ensure background color extends */
+  min-height: 100vh; /* Ensure it covers the full height */
+}
+
+/* Welcome Banner */
+.welcome-banner {
+  background: var(--surface);
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 2rem;
+  text-align: center;
+  width: 94%; /* Ensure it spans the full width */
+}
+
+.welcome-banner h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.welcome-banner p {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+}
+
+/* Note Creation Section */
+.note-creation-section {
+  margin-bottom: 2rem;
+  width: 100%; /* Ensure it spans the full width */
+}
+
+/* Notes Header */
+.notes-header {
+  background: var(--surface);
+  padding: 1.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 2rem;
+  text-align: center;
+  width: 96%; /* Ensure it spans the full width */
+}
+
+.notes-header h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.notes-header p {
+  font-size: 1rem;
+  color: var(--text-secondary);
+}
+
+/* Notes Section */
+.notes-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive grid */
   gap: 1.5rem;
-  width: 100%;
+  width: 100%; /* Ensure it spans the full width */
 }
 
-.noteGrid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Two columns of notes */
-    gap: 1rem;
+/* Empty State */
+.empty-state {
+  background: var(--surface);
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+  text-align: center;
 }
 
-.note {
-    background-color: #f0f0f0;
-    padding: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    text-align: center;
+.empty-state h3 {
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
 }
 
-/* Progress Widget */
-.progressWidget {
-    grid-column: 3;
-    position: sticky;
-    top: 2rem;
-    background: white;
-    padding: 1.5rem;
-    border-radius: 16px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-                0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    height: fit-content;
-  }
-
-.progressWidget h3 {
-    margin-bottom: 1rem;
+.empty-state p {
+  font-size: 1rem;
+  color: var(--text-secondary);
 }
-/* Responsive design */
+
+/* Responsive Design */
 @media (max-width: 1200px) {
-    .container {
-      grid-template-columns: 1fr minmax(auto, 800px) 250px;
-      padding: 1rem;
-    }
+  .mainContent {
+    margin-left: 220px; /* Adjust for smaller navbar width */
+    padding: 1.5rem;
+    width: calc(100% - 220px); /* Adjust width for smaller navbar */
   }
 
-  @media (max-width: 900px) {
-    .container {
-      grid-template-columns: 1fr;
-      gap: 1rem;
-    }
+  .notes-section {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Smaller cards */
+  }
+}
 
-    .mainContent {
-      grid-column: 1;
-    }
-
-    .progressWidget {
-      grid-column: 1;
-      position: static;
-      margin-bottom: 1rem;
-    }
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
   }
 
-/* Custom scrollbar */
+  .mainContent {
+    margin-left: 0;
+    padding: 1rem;
+    width: 100%; /* Full width on small screens */
+  }
+
+  .welcome-banner {
+    padding: 1.5rem;
+  }
+
+  .welcome-banner h1 {
+    font-size: 1.75rem;
+  }
+
+  .welcome-banner p {
+    font-size: 1rem;
+  }
+
+  .notes-header {
+    padding: 1rem;
+  }
+
+  .notes-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .notes-header p {
+    font-size: 0.9rem;
+  }
+
+  .notes-section {
+    grid-template-columns: 1fr; /* Single column on small screens */
+  }
+}
+
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
-    width: 8px;
-  }
+  width: 8px;
+}
 
-  ::-webkit-scrollbar-track {
-    background: #f1f1f1;
-  }
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
 
-  ::-webkit-scrollbar-thumb {
-    background: #818cf8;
-    border-radius: 4px;
-  }
+::-webkit-scrollbar-thumb {
+  background: var(--primary-light);
+  border-radius: 4px;
+}
 
-  ::-webkit-scrollbar-thumb:hover {
-    background: #6366f1;
-  }
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}

@@ -1,0 +1,63 @@
+/* Comment.css */
+:root {
+    --primary: #6c5ce7; /* Modern purple */
+    --primary-light: #a29bfe; /* Lighter purple */
+    --surface: #ffffff; /* White background */
+    --background: #f5f6fa; /* Light gray background */
+    --text-primary: #2d3436; /* Dark gray text */
+    --text-secondary: #636e72; /* Lighter gray text */
+    --border-radius: 12px; /* Rounded corners */
+  }
+
+  .Card-commentBody {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    background: var(--surface);
+    border-radius: var(--border-radius);
+    margin-bottom: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .Card-commentBody:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(108, 92, 231, 0.1);
+  }
+
+  .Comment-profilePicture {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    margin-right: 12px;
+    object-fit: cover;
+    border: 2px solid var(--primary-light); /* Cute border */
+  }
+
+  .Comment-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-primary);
+    font-size: 0.9375rem;
+  }
+
+  .Comment-content span {
+    color: var(--text-secondary);
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 640px) {
+    .Card-commentBody {
+      padding: 8px;
+    }
+
+    .Comment-profilePicture {
+      width: 32px;
+      height: 32px;
+    }
+
+    .Comment-content {
+      font-size: 0.875rem;
+    }
+  }
