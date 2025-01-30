@@ -1,0 +1,53 @@
+/* LoginPage.css */
+.login-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--primary-light), var(--primary-dark));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  .login-card {
+    background: var(--surface);
+    padding: 3rem;
+    border-radius: 1rem;
+    box-shadow: var(--shadow-lg);
+    max-width: 28rem;
+    width: 100%;
+    animation: slideUp 0.5s ease-out;
+  }
+
+  .login-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .login-subtitle {
+    color: var(--text-secondary);
+    text-align: center;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+  }
+
+  .app-features {
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background: var(--background);
+    border-radius: 0.5rem;
+  }
+
+  .feature-item {
+    display: flex;
+    align-items: center;
+    margin: 1rem 0;
+    color: var(--text-primary);
+  }
+
+  .feature-item svg {
+    margin-right: 1rem;
+    color: var(--primary);
+  }

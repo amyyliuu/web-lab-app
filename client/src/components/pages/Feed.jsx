@@ -2,6 +2,8 @@
 import React, { useContext, useState, useEffect } from "react";
 import SingleNote from "../modules/SingleNote";
 import NavBar from "../modules/navBar";
+import "../../utilities.css";  // Keep your existing import
+
 import "./Feed.css";
 import Card from "../modules/Card";
 import { NewNote } from "../modules/NewPostInput";
@@ -34,6 +36,7 @@ const Feed = (props) => {
         _id={noteObj._id}
         creator_name={noteObj.creator_name}
         creator_id={noteObj.creator_id}
+        creator_profilePicture={noteObj.creator_profilePicture}
         userId={userId}
         content={noteObj.content}
       />

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import SingleNote from "./SingleNote";
 import CommentsBlock from "./CommentsBlock";
 import { get } from "../../utilities";
-
+import "../../utilities.css";  // Keep your existing import
 import "./Card.css";
 
 /**
@@ -35,6 +35,7 @@ const Card = (props) => {
         _id={props._id}
         creator_name={props.creator_name}
         creator_id={props.creator_id}
+        creator_profilePicture={props.creator_profilePicture} // Add this line
         content={props.content}
       />
       <CommentsBlock

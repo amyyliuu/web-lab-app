@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import NavBar from "../modules/navBar";
 import Card from "../modules/Card";
+import "../../utilities.css";  // Keep your existing import
+
 
 import Progress from "../modules/progress";
 import { NewNote } from "../modules/NewPostInput";
@@ -25,7 +27,7 @@ const Welcome = ({ username }) => (
 
 const Skeleton = (props) => {
   const [myNotes, setMyNotes] = useState([]);
-  const { userId, username } = useContext(UserContext); // Access userId from context
+  const { userId, username, profilePicture } = useContext(UserContext); // Access userId from context
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -35,7 +37,7 @@ const Skeleton = (props) => {
       setMyNotes(reversedNoteObjs);
       console.log("mynotes retrived: ", noteObjs);
     });
-  }, [username]);
+  }, [username, profilePicture]);
 
   const addNewNote = (noteObj) => {
     setMyNotes((prevNotes) => [noteObj, ...prevNotes]); // Use functional update
@@ -49,7 +51,7 @@ const Skeleton = (props) => {
       <main className="mainContent">
         <Welcome username={username} />
 
-        {userId &&(
+        {userId && (
           <div className="note-creation-section">
             <NewNote addNewNote={addNewNote} />
           </div>
@@ -63,6 +65,7 @@ const Skeleton = (props) => {
                 _id={noteObj._id}
                 creator_name={noteObj.creator_name}
                 creator_id={noteObj.creator_id}
+                creator_profilePicture={noteObj.creator_profilePicture} // Add this line
                 userId={userId}
                 content={noteObj.content}
                 timestamp={noteObj.timestamp}
@@ -74,10 +77,6 @@ const Skeleton = (props) => {
           )}
         </div>
       </main>
-      <aside className="progressWidget">
-        <Progress />
-        <p>67% of goals reached</p>
-      </aside>
     </div>
   );
 };

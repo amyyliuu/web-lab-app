@@ -1,6 +1,7 @@
 import React from "react";
 import SingleComment from "./SingleComment";
 import { NewComment } from "./NewPostInput";
+import "../../utilities.css";  // Keep your existing import
 
 /**
  * @typedef ContentObject
@@ -16,23 +17,22 @@ import { NewComment } from "./NewPostInput";
  * @param {ContentObject[]} comments
  * @param {ContentObject} note
  */
+// In CommentsBlock.js
 const CommentsBlock = (props) => {
   return (
     <div className="Card-commentSection">
-      <div className="note-comments">
-        {props.comments.map((comment) => (
-          <SingleComment
-            key={`SingleComment_${comment._id}`}
-            _id={comment._id}
-            creator_name={comment.creator_name}
-            creator_id={comment.creator_id}
-            content={comment.content}
-          />
-        ))}
-        {props.userId && (
-          <NewComment noteId={props.note._id} addNewComment={props.addNewComment} />
-        )}
-      </div>
+      {props.comments.map((comment) => (
+        <SingleComment
+          key={`Comment_${comment._id}`}
+          creator_name={comment.creator_name}
+          creator_id={comment.creator_id}
+          creator_profilePicture={comment.creator_profilePicture} // Add this line
+          content={comment.content}
+        />
+      ))}
+      {props.userId && (
+        <NewComment noteId={props.note._id} addNewComment={props.addNewComment} />
+      )}
     </div>
   );
 };

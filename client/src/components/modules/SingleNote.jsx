@@ -1,9 +1,20 @@
 import React from "react";
+import "../../utilities.css";  // Keep your existing import
+
 import "./Note.css";
 
-const SingleNote = ({creator_name, content, timestamp}) => {
+const SingleNote = ({creator_name, creator_profilePicture, content, timestamp}) => {
     return (
     <div className = "Note-story">
+        <div className="Note-header">
+            {creator_profilePicture && (
+                <img
+                    src={creator_profilePicture}
+                    alt={`${creator_name}'s profile`}
+                    className="Note-profilePicture"
+                />
+            )}
+        </div>
         <h1 className = "u-bold">
             {creator_name}
             {timestamp && (

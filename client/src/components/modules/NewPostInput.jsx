@@ -1,5 +1,7 @@
 import React, { useState, useContext } from "react";
 import { UserContext } from "../App";
+import "../../utilities.css";  // Keep your existing import
+
 import "./NewPostInput.css";
 import { post } from "../../utilities";
 
@@ -117,10 +119,10 @@ const NewComment = (props) => {
  * @param {string} defaultText is the placeholder text
  */
 const NewNote = (props) => {
-  const { userId, username } = useContext(UserContext);
+  const { userId, username, profilePicture } = useContext(UserContext);
   console.log("LOOK HERE FOR USER ID", userId);
   const addNote = (value, isPublic) => {
-    const body = { content: value, isPublic: isPublic, creator_id: userId, creator_name: username};
+    const body = { content: value, isPublic: isPublic, creator_id: userId, creator_name: username, creator_profilePicture: profilePicture};
     console.log("LOOK HERE FOR CREATOR ID", body);
     post("/api/notes", body).then((note) => {
       // display this story on the screen

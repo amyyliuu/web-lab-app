@@ -5,6 +5,7 @@ const noteSchema = new mongoose.Schema({
   content: { type: String, required: true },
   creator_name: { type: String, required: true },
   creator_id: String,
+  creator_profilePicture: String,
   isPublic: { type: Boolean, default: false },
 });
 

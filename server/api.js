@@ -85,8 +85,10 @@ router.post("/notes", async (req, res) => {
 
   const { content, isPublic } = req.body;
   const creator_id = req.user._id;
+  const profilePicture = req.user.profilePicture;
 
   console.log("Received creator_id in backend: ", creator_id);
+  console.log("received pic: ", profilePicture);
 
   try {
     // Create the new note and log the note object before saving
@@ -94,6 +96,7 @@ router.post("/notes", async (req, res) => {
       content,
       creator_name: req.user.name,  // Link note to the logged-in user's name
       creator_id: creator_id,       // Store user's unique ID
+      creator_profilePicture: profilePicture,
       isPublic,
     });
 
@@ -184,7 +187,32 @@ router.post("/profile/:userId", (req, res) => {
     });
 });
 
-// In your `api.js` or the relevant routes file:
+router.post('/updatePicture', async (req, res) => {
+  console.log("Received request to update picture:", req.body); // Add this log
+  if (!req.user) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  const { profilePicture } = req.body;
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(req.user._id, { profilePicture }, { new: true });
+
+    // Update the session with the new name
+    req.user.profilePicture = updatedUser.profilePicture;  // Update the session object
+
+    // Update the creator_name in all notes associated with this user
+    await Note.updateMany(
+      { creator_id: req.user._id },
+      { $set: { creator_profilePicture: updatedUser.profilePicture } }
+    );
+
+    res.status(200).json({ message: "Profile picture and associated notes updated", user: updatedUser });
+  } catch (error) {
+    console.error("Error updating profile pic and notes:", error);
+    res.status(500).json({ message: "Error updating profile pic and notes" });
+  }
+});
 // In your `api.js` or the relevant routes file:
 router.post("/updateUsername", async (req, res) => {
   if (!req.user) {

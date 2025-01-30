@@ -6,6 +6,7 @@ import NotFound from "./components/pages/NotFound";
 import Feed from "./components/pages/Feed";
 import Profile from "./components/pages/Profile";
 import LoginPage from "./components/pages/Login";
+
 import {
   createBrowserRouter,
   createRoutesFromElements,

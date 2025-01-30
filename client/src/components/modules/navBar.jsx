@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
+import "../../utilities.css";  // Keep your existing import
 import "./navBar.css";
 
 const NavBar = () => {
@@ -7,7 +8,7 @@ const NavBar = () => {
 
   const navLinks = [
     { to: "/home", text: "My Notes" },
-    { to: "/feed", text: "Friend Activity" },
+    { to: "/feed", text: "Feed" },
     { to: "/profile", text: "My Profile" }
   ];
 

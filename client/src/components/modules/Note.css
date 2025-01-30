@@ -57,3 +57,48 @@
       font-size: 0.9375rem;
     }
   }
+  .Note-profilePicture {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+    object-fit: cover;
+}
+
+.Comment-profilePicture {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 8px;
+    object-fit: cover;
+}
+
+.Note-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.Card-commentBody {
+    display: flex;
+    align-items: center;
+    padding: 8px 0;
+}
+
+.Comment-content {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.Note-story {
+    display: flex;
+    flex-direction: column;
+}
+
+.Note-timestamp {
+    font-size: 0.8em;
+    color: #666;
+    margin-left: 10px;
+    font-weight: normal;
+}
