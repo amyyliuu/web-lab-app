@@ -31,7 +31,6 @@ const Skeleton = (props) => {
     get("/api/mynotes").then((noteObjs) => {
       let reversedNoteObjs = noteObjs.reverse();
       setMyNotes(reversedNoteObjs);
-      console.log("mynotes retrieved: ", noteObjs);
     });
   }, [username, profilePicture]);
 
@@ -39,7 +38,6 @@ const Skeleton = (props) => {
     setMyNotes((prevNotes) => [noteObj, ...prevNotes]); // Use functional update
   };
 
-  console.log('User ID:', userId);
   return (
     <div className="container">
       <NavBar />

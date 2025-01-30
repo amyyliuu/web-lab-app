@@ -53,7 +53,6 @@ router.post("/initsocket", (req, res) => {
 // api/noteRoutes.js (modified)
 // Get all notes created by the logged-in user
 router.get("/mynotes", async (req, res) => {
-  console.log("User in request:", req.user); // Add this for debugging
   if (!req.user) {
     return res.status(401).json({ message: "Unauthorized" });
   }
@@ -77,7 +76,6 @@ router.get("/publicnotes", async (req, res) => {
 });
 
 router.post("/notes", async (req, res) => {
-  console.log("POST /notes route hit");
 
   if (!req.user) {
     return res.status(401).json({ message: "Unauthorized" });
@@ -87,8 +85,6 @@ router.post("/notes", async (req, res) => {
   const creator_id = req.user._id;
   const profilePicture = req.user.profilePicture;
 
-  console.log("Received creator_id in backend: ", creator_id);
-  console.log("received pic: ", profilePicture);
 
   try {
     // Create the new note and log the note object before saving
@@ -101,12 +97,10 @@ router.post("/notes", async (req, res) => {
     });
 
     // Log the note object to see if the creator_id is set correctly
-    console.log("New note object before saving:", newNote);
 
     await newNote.save();
 
     // Log the note after it's saved
-    console.log("New note added:", newNote);
 
     res.status(201).json(newNote);
   } catch (error) {
@@ -188,7 +182,6 @@ router.post("/profile/:userId", (req, res) => {
 });
 
 router.post('/updatePicture', async (req, res) => {
-  console.log("Received request to update picture:", req.body); // Add this log
   if (!req.user) {
     return res.status(401).json({ message: "Unauthorized" });
   }
@@ -243,7 +236,6 @@ router.post("/updateUsername", async (req, res) => {
 
 // anything else falls to this "not found" case
 router.all("*", (req, res) => {
-  console.log(`API route not found: ${req.method} ${req.url}`);
   res.status(404).send({ msg: "API route not found" });
 });
 

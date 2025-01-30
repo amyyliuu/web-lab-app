@@ -16,7 +16,6 @@ const Feed = (props) => {
     get("/api/publicnotes").then((noteObjs) => {
       let reversedNoteObjs = noteObjs.reverse();
       setPublicNotes(reversedNoteObjs);
-      console.log("publicnotes retrieved: ", noteObjs);
     });
   }, []);
 
