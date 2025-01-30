@@ -33,7 +33,7 @@ const ProfilePage = () => {
 
   const updateUsername = (newUsername) => {
     // Send the updated username to the backend
-    post("/api/updateUsername", { name: newUsername }).then(() => {
+    post("/api/updateUsername", { userId, name: newUsername }).then(() => {
       // After the update, update the local state
       setUsername(newUsername);
     });

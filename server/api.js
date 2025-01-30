@@ -185,6 +185,7 @@ router.post("/profile/:userId", (req, res) => {
 });
 
 // In your `api.js` or the relevant routes file:
+// In your `api.js` or the relevant routes file:
 router.post("/updateUsername", async (req, res) => {
   if (!req.user) {
     return res.status(401).json({ message: "Unauthorized" });
@@ -199,9 +200,16 @@ router.post("/updateUsername", async (req, res) => {
     // Update the session with the new name
     req.user.name = updatedUser.name;  // Update the session object
 
-    res.status(200).json({ message: "Username updated", user: updatedUser });
+    // Update the creator_name in all notes associated with this user
+    await Note.updateMany(
+      { creator_id: req.user._id },
+      { $set: { creator_name: updatedUser.name } }
+    );
+
+    res.status(200).json({ message: "Username and associated notes updated", user: updatedUser });
   } catch (error) {
-    res.status(500).json({ message: "Error updating username" });
+    console.error("Error updating username and notes:", error);
+    res.status(500).json({ message: "Error updating username and notes" });
   }
 });
 
