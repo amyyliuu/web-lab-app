@@ -16,16 +16,16 @@ const EmptyState = () => (
   </div>
 );
 
-const Welcome = ({ userName }) => (
+const Welcome = ({ username }) => (
   <div className="welcome-banner">
-    <h1>Welcome back, {userName}!</h1>
+    <h1>Welcome back, {username}!</h1>
     <p>What's on your mind today?</p>
   </div>
 );
 
 const Skeleton = (props) => {
   const [myNotes, setMyNotes] = useState([]);
-  const { userId, userName } = useContext(UserContext); // Access userId from context
+  const { userId, username } = useContext(UserContext); // Access userId from context
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -35,7 +35,7 @@ const Skeleton = (props) => {
       setMyNotes(reversedNoteObjs);
       console.log("mynotes retrived: ", noteObjs);
     });
-  }, []);
+  }, [username]);
 
   const addNewNote = (noteObj) => {
     setMyNotes((prevNotes) => [noteObj, ...prevNotes]); // Use functional update
@@ -47,7 +47,7 @@ const Skeleton = (props) => {
     <div className="container">
       <NavBar />
       <main className="mainContent">
-        <Welcome userName={userName} />
+        <Welcome username={username} />
 
         {userId &&(
           <div className="note-creation-section">

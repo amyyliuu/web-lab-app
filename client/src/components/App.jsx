@@ -9,6 +9,7 @@ export const UserContext = createContext(null);
 const App = () => {
   const [userId, setUserId] = useState(undefined);
   const [publicNotes, setPublicNotes] = useState([]); // Track public notes
+  const [username, setUsername] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,10 +18,11 @@ const App = () => {
       if (user._id) {
         console.log("usr still in session!");
         setUserId(user._id);
+        setUsername(user.name || "");
         // navigate("home");
       }
     });
-  }, []);
+  }, [username]);
 
   const addPublicNote = (note) => {
     const newNote = {
@@ -37,6 +39,7 @@ const App = () => {
     console.log(`Logged in as ${decodedCredential.name}`);
     post("/api/login", { token: userToken }).then((user) => {
       setUserId(user._id);
+      setUsername(user.name);
       post("/api/initsocket", { socketid: socket.id });
       navigate("home");
     });
@@ -44,11 +47,14 @@ const App = () => {
 
   const handleLogout = () => {
     setUserId(undefined);
+    setUsername("");
     post("/api/logout");
   };
 
   const authContextValue = {
     userId,
+    username,
+    setUsername,
     handleLogin,
     handleLogout,
   };

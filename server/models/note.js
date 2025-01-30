@@ -1,10 +1,11 @@
-// models/Note.js
 const mongoose = require("mongoose");
 
+// Define the schema for the Note model
 const noteSchema = new mongoose.Schema({
   content: { type: String, required: true },
-  creator_name: { type: String, required: true }, // You can link this to the logged-in user
+  creator_name: { type: String, required: true },
+  creator_id: String,
   isPublic: { type: Boolean, default: false },
 });
 
-module.exports = mongoose.model("note", noteSchema);
+module.exports = mongoose.model('Note', noteSchema);

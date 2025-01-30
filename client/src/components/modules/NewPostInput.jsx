@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-
+import React, { useState, useContext } from "react";
+import { UserContext } from "../App";
 import "./NewPostInput.css";
 import { post } from "../../utilities";
 
@@ -117,12 +117,17 @@ const NewComment = (props) => {
  * @param {string} defaultText is the placeholder text
  */
 const NewNote = (props) => {
+  const { userId, username } = useContext(UserContext);
+  console.log("LOOK HERE FOR USER ID", userId);
   const addNote = (value, isPublic) => {
-    const body = { content: value, isPublic: isPublic};
+    const body = { content: value, isPublic: isPublic, creator_id: userId, creator_name: username};
+    console.log("LOOK HERE FOR CREATOR ID", body);
     post("/api/notes", body).then((note) => {
       // display this story on the screen
       props.addNewNote(note);
-      console.log("NewNote is rendered");
+      console.log("New note added:", note);
+    }).catch(error => {
+      console.error("Error adding note:", error);
     });
   };
 
