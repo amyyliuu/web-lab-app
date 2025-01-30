@@ -61,7 +61,7 @@ const cors = require('cors'); // Import CORS
 
 // Set up CORS options
 const corsOptions = {
-  origin: "http://localhost:5173", // Allow frontend (React app) to access the API
+  origin: ["http://localhost:5173", "https://purpose-pad.onrender.com"],// Allow frontend (React app) to access the API
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"], // Ensure these headers are allowed
   credentials: true,  // Allow credentials like cookies or authorization headers
